@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Birthday Surprise 🎂</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: "Arial", sans-serif;
+            background: linear-gradient(135deg, #ffd6e7, #e5d5ff);
+            overflow: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 450px;
+            padding: 30px 25px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        h1 {
+            color: #ff6f9c;
+            font-size: 30px;
+        }
+
+        p {
+            color: #666;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            margin: 8px 0 15px;
+            border: 2px solid #ffc1d8;
+            border-radius: 15px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        input[type="file"] {
+            background: white;
+        }
+
+        button {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 20px;
+            background: #ff78a7;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #ff5c94;
+        }
+
+        #birthday {
+            display: none;
+            animation: pop 0.8s ease;
+        }
+
+        .photo {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 6px solid white;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        #birthday h2 {
+            color: #ff5f94;
+            font-size: 35px;
+            margin: 15px 0 5px;
+        }
+
+        .cake {
+            font-size: 65px;
+        }
+
+        .message {
+            font-size: 17px;
+            line-height: 1.7;
+        }
+
+        .heart {
+            position: fixed;
+            bottom: -50px;
+            font-size: 25px;
+            animation: float 5s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-110vh);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- INPUT PAGE -->
+
+        <div id="form">
+
+            <h1>🎀 Birthday Surprise 🎀</h1>
+
+            <p>Let's make a little surprise 💗</p>
+
+            <input
+                type="text"
+                id="name"
+                placeholder="Birthday person's name"
+            >
+
+            <input
+                type="file"
+                id="photo"
+                accept="image/*"
+            >
+
+            <input
+                type="date"
+                id="date"
+            >
+
+            <button onclick="checkBirthday()">
+                Open Surprise 🎁
+            </button>
+
+        </div>
+
+
+        <!-- BIRTHDAY PAGE -->
+
+        <div id="birthday">
+
+            <div class="cake">🎂</div>
+
+            <img
+                id="personPhoto"
+                class="photo"
+                src=""
+                alt="Birthday Person"
+            >
+
+            <h2>
+                Happy Birthday,
+                <span id="personName"></span>! 🎉
+            </h2>
+
+            <p class="message">
+                Wishing you a day filled with
+                happiness, love and beautiful memories. 💕
+                <br><br>
+
+                May all your wishes come true. 🌸✨
+                <br>
+
+                Have the sweetest birthday ever! 🎀
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        function checkBirthday() {
+
+            let name = document.getElementById("name").value;
+            let date = document.getElementById("date").value;
+            let photo = document.getElementById("photo").files[0];
+
+            // Check name
+            if (name === "") {
+                alert("Please enter the birthday person's name 💗");
+                return;
+            }
+
+            // Check photo
+            if (!photo) {
+                alert("Please choose a photo 📸");
+                return;
+            }
+
+            // Check date
+            if (date === "") {
+                alert("Please choose the birthday date 🎀");
+                return;
+            }
+
+
+            let selectedDate = new Date(date);
+
+            let day = selectedDate.getDate();
+            let month = selectedDate.getMonth() + 1;
+
+
+            // Birthday = August 21
+
+            if (day === 21 && month === 8) {
+
+                document.getElementById("personName").textContent = name;
+
+                let reader = new FileReader();
+
+                reader.onload = function(e) {
+
+                    document.getElementById("personPhoto").src =
+                        e.target.result;
+
+                    document.getElementById("form").style.display =
+                        "none";
+
+                    document.getElementById("birthday").style.display =
+                        "block";
+
+                    createHearts();
+                };
+
+                reader.readAsDataURL(photo);
+
+            } else {
+
+                alert(
+                    "Oops! 🎀 The special day is August 21."
+                );
+
+            }
+        }
+
+
+        function createHearts() {
+
+            for (let i = 0; i < 35; i++) {
+
+                let heart = document.createElement("div");
+
+                heart.className = "heart";
+
+                heart.innerHTML =
+                    Math.random() > 0.5 ? "💗" : "🌸";
+
+                heart.style.left =
+                    Math.random() * 100 + "%";
+
+                heart.style.animationDelay =
+                    Math.random() * 5 + "s";
+
+                heart.style.fontSize =
+                    (15 + Math.random() * 25) + "px";
+
+                document.body.appendChild(heart);
+            }
+        }
+
+    </script>
+
+</body>
+</html>
