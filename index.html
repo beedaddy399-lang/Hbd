@@ -17,17 +17,17 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: "Arial", sans-serif;
-            background: linear-gradient(135deg, #ffd6e7, #e5d5ff);
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ffd6e7, #e8d9ff);
             overflow: hidden;
         }
 
         .container {
             width: 90%;
-            max-width: 450px;
+            max-width: 430px;
             padding: 30px 25px;
             text-align: center;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255,255,255,0.9);
             border-radius: 30px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.15);
         }
@@ -38,21 +38,17 @@
         }
 
         p {
-            color: #666;
+            color: #777;
         }
 
         input {
             width: 100%;
-            padding: 13px;
+            padding: 14px;
             margin: 8px 0 15px;
             border: 2px solid #ffc1d8;
             border-radius: 15px;
             font-size: 16px;
             outline: none;
-        }
-
-        input[type="file"] {
-            background: white;
         }
 
         button {
@@ -85,7 +81,7 @@
 
         #birthday h2 {
             color: #ff5f94;
-            font-size: 35px;
+            font-size: 34px;
             margin: 15px 0 5px;
         }
 
@@ -98,33 +94,32 @@
             line-height: 1.7;
         }
 
-        .heart {
+        .floating {
             position: fixed;
             bottom: -50px;
-            font-size: 25px;
             animation: float 5s linear infinite;
             pointer-events: none;
         }
 
         @keyframes pop {
-            0% {
+            from {
                 transform: scale(0);
                 opacity: 0;
             }
 
-            100% {
+            to {
                 transform: scale(1);
                 opacity: 1;
             }
         }
 
         @keyframes float {
-            0% {
+            from {
                 transform: translateY(0);
                 opacity: 1;
             }
 
-            100% {
+            to {
                 transform: translateY(-110vh);
                 opacity: 0;
             }
@@ -134,166 +129,178 @@
 
 <body>
 
-    <div class="container">
+<div class="container">
 
-        <!-- INPUT PAGE -->
+    <!-- FIRST PAGE -->
 
-        <div id="form">
+    <div id="form">
 
-            <h1>🎀 Birthday Surprise 🎀</h1>
+        <h1>🎀 Birthday Surprise 🎀</h1>
 
-            <p>Let's make a little surprise 💗</p>
+        <p>Tell me who you are 💗</p>
 
-            <input
-                type="text"
-                id="name"
-                placeholder="Birthday person's name"
-            >
+        <input
+            type="text"
+            id="name"
+            placeholder="Enter your name"
+        >
 
-            <input
-                type="file"
-                id="photo"
-                accept="image/*"
-            >
+        <p>When is your birthday? 🎂</p>
 
-            <input
-                type="date"
-                id="date"
-            >
+        <input
+            type="date"
+            id="date"
+        >
 
-            <button onclick="checkBirthday()">
-                Open Surprise 🎁
-            </button>
+        <br>
 
-        </div>
-
-
-        <!-- BIRTHDAY PAGE -->
-
-        <div id="birthday">
-
-            <div class="cake">🎂</div>
-
-            <img
-                id="personPhoto"
-                class="photo"
-                src=""
-                alt="Birthday Person"
-            >
-
-            <h2>
-                Happy Birthday,
-                <span id="personName"></span>! 🎉
-            </h2>
-
-            <p class="message">
-                Wishing you a day filled with
-                happiness, love and beautiful memories. 💕
-                <br><br>
-
-                May all your wishes come true. 🌸✨
-                <br>
-
-                Have the sweetest birthday ever! 🎀
-            </p>
-
-        </div>
+        <button onclick="checkBirthday()">
+            Open Surprise 🎁
+        </button>
 
     </div>
 
 
-    <script>
+    <!-- BIRTHDAY PAGE -->
 
-        function checkBirthday() {
+    <div id="birthday">
 
-            let name = document.getElementById("name").value;
-            let date = document.getElementById("date").value;
-            let photo = document.getElementById("photo").files[0];
+        <div class="cake">🎂</div>
 
-            // Check name
-            if (name === "") {
-                alert("Please enter the birthday person's name 💗");
-                return;
-            }
+        <!-- Your photo -->
+        <img
+            src="birthday.jpg"
+            class="photo"
+            alt="Birthday Photo"
+        >
 
-            // Check photo
-            if (!photo) {
-                alert("Please choose a photo 📸");
-                return;
-            }
+        <h2>
+            Happy Birthday,
+            <span id="personName"></span>! 🎉
+        </h2>
 
-            // Check date
-            if (date === "") {
-                alert("Please choose the birthday date 🎀");
-                return;
-            }
+        <p class="message">
+            May you always be able to support
+            KenPaul and TheeWave wholeheartedly. 
+            <br><br>
 
+            And I hope you get to spoil PanPan
+            even more than you do now.🫵🏻💕
+            <br><br>
 
-            let selectedDate = new Date(date);
+            From this birthday onward, I hope nothing but
+            happiness finds its way to you, Myat Noe~!
+            Love you na!!💕💕
+        </p>
 
-            let day = selectedDate.getDate();
-            let month = selectedDate.getMonth() + 1;
+    </div>
 
-
-            // Birthday = August 21
-
-            if (day === 21 && month === 8) {
-
-                document.getElementById("personName").textContent = name;
-
-                let reader = new FileReader();
-
-                reader.onload = function(e) {
-
-                    document.getElementById("personPhoto").src =
-                        e.target.result;
-
-                    document.getElementById("form").style.display =
-                        "none";
-
-                    document.getElementById("birthday").style.display =
-                        "block";
-
-                    createHearts();
-                };
-
-                reader.readAsDataURL(photo);
-
-            } else {
-
-                alert(
-                    "Oops! 🎀 The special day is August 21."
-                );
-
-            }
-        }
+</div>
 
 
-        function createHearts() {
+<script>
 
-            for (let i = 0; i < 35; i++) {
+function checkBirthday() {
 
-                let heart = document.createElement("div");
+    const name =
+        document.getElementById("name").value.trim();
 
-                heart.className = "heart";
+    const date =
+        document.getElementById("date").value;
 
-                heart.innerHTML =
-                    Math.random() > 0.5 ? "💗" : "🌸";
 
-                heart.style.left =
-                    Math.random() * 100 + "%";
+    if (name === "") {
 
-                heart.style.animationDelay =
-                    Math.random() * 5 + "s";
+        alert("Please enter your name 💗");
+        return;
 
-                heart.style.fontSize =
-                    (15 + Math.random() * 25) + "px";
+    }
 
-                document.body.appendChild(heart);
-            }
-        }
 
-    </script>
+    if (date === "") {
+
+        alert("Please enter your birthday date 🎂");
+        return;
+
+    }
+
+
+    const selectedDate = new Date(date);
+
+    const day = selectedDate.getDate();
+    const month = selectedDate.getMonth() + 1;
+
+
+    /*
+        SPECIAL BIRTHDAY
+        21 AUGUST
+    */
+
+    if (day === 21 && month === 8) {
+
+        document.getElementById("personName").textContent =
+            name;
+
+        document.getElementById("form").style.display =
+            "none";
+
+        document.getElementById("birthday").style.display =
+            "block";
+
+        createFloatingHearts();
+
+    }
+
+    else {
+
+        alert(
+            "Oops! 🥺 The special day is August 21."
+        );
+
+    }
+
+}
+
+
+function createFloatingHearts() {
+
+    const emojis = [
+        "💗",
+        "💕",
+        "💖",
+        "🌸",
+        "🎀",
+        "✨"
+    ];
+
+
+    for (let i = 0; i < 35; i++) {
+
+        const item =
+            document.createElement("div");
+
+        item.className = "floating";
+
+        item.innerHTML =
+            emojis[Math.floor(
+                Math.random() * emojis.length
+            )];
+
+        item.style.left =
+            Math.random() * 100 + "%";
+
+        item.style.fontSize =
+            (15 + Math.random() * 25) + "px";
+
+        item.style.animationDelay =
+            Math.random() * 5 + "s";
+
+        document.body.appendChild(item);
+    }
+
+}
+
+</script>
 
 </body>
 </html>
